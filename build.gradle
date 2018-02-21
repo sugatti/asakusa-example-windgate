@@ -1,0 +1,46 @@
+group 'com.example'
+
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url 'http://asakusafw.s3.amazonaws.com/maven/releases' }
+        maven { url 'http://asakusafw.s3.amazonaws.com/maven/snapshots' }
+    }
+    dependencies {
+        classpath group: 'com.asakusafw.gradle', name: 'asakusa-distribution', version: '0.10.0'
+        classpath group: 'org.flywaydb', name: 'flyway-gradle-plugin', version: '5.0.7'
+        classpath group: 'mysql', name: 'mysql-connector-java', version: '5.1.45'
+    }
+}
+
+apply plugin: 'asakusafw-sdk'
+apply plugin: 'asakusafw-organizer'
+apply plugin: 'asakusafw-m3bp'
+apply plugin: 'eclipse'
+apply plugin: 'org.flywaydb.flyway'
+
+
+asakusafw {
+    m3bp {
+        option 'm3bp.native.cmake.CMAKE_TOOLCHAIN_FILE', System.getProperty('m3bp.toolchain')
+        option 'windgate.jdbc.direct', '*'
+    }
+}
+
+asakusafwOrganizer {
+    profiles.prod {
+        hadoop.embed true
+        assembly.into('.') {
+            put 'src/dist/prod'
+        }
+    }
+    extension {
+        libraries += ['mysql:mysql-connector-java:5.1.45']
+    }
+}
+
+flyway {
+    url = 'jdbc:mysql://localhost/demo'
+    user = 'demo'
+    password = 'demo'
+}

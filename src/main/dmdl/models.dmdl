@@ -1,0 +1,81 @@
+"売上明細"
+@windgate.jdbc.table(
+    name = "demo.SALES_DETAIL"
+)
+sales_detail = {
+
+    "売上日時"
+    @windgate.jdbc.column(name = "SALES_DATE_TIME")
+    sales_date_time : DATETIME;
+
+    "商品コード"
+    @windgate.jdbc.column(name = "ITEM_CODE")
+    item_code : TEXT;
+
+    "数量"
+    @windgate.jdbc.column(name = "AMOUNT")
+    amount : INT;
+};
+
+"商品マスタ"
+@windgate.jdbc.table(
+    name = "demo.ITEM_INFO"
+)
+item_info = {
+
+    "商品コード"
+    @windgate.jdbc.column(name = "ITEM_CODE")
+    item_code : TEXT;
+
+    "商品名"
+    @windgate.jdbc.column(name = "ITEM_NAME")
+    item_name : TEXT;
+
+    "商品カテゴリコード"
+    @windgate.jdbc.column(name = "CATEGORY_CODE")
+    category_code : TEXT;
+
+    "商品カテゴリ名"
+    @windgate.jdbc.column(name = "CATEGORY_NAME")
+    category_name : TEXT;
+
+    "単価"
+    @windgate.jdbc.column(name = "UNIT_PRICE")
+    unit_price : INT;
+
+    "マスタ登録日"
+    @windgate.jdbc.column(name = "REGISTERED_DATE")
+    registered_date : DATE;
+
+    "マスタ適用開始日"
+    @windgate.jdbc.column(name = "BEGIN_DATE")
+    begin_date : DATE;
+
+    "マスタ適用終了日"
+    @windgate.jdbc.column(name = "END_DATE")
+    end_date : DATE;
+};
+
+"カテゴリ別売上集計"
+@windgate.jdbc.table(
+    name = "demo.CATEGORY_SUMMARY"
+)
+category_summary = {
+
+    sales_date_time : DATETIME;
+
+    item_code : TEXT;
+
+    @windgate.jdbc.column(name = "CATEGORY_CODE")
+    category_code : TEXT;
+
+    @windgate.jdbc.column(name = "CATEGORY_NAME")
+    category_name : TEXT;
+
+    @windgate.jdbc.column(name = "AMOUNT")
+    amount : INT;
+
+    @windgate.jdbc.column(name = "SELLING_PRICE")
+    selling_price : INT;
+};
+
